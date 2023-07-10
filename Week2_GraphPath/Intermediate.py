@@ -90,12 +90,13 @@ def path_between(a, b):
 
 
 def main():
-
-    path, length = path_between("a", "b")
-    ######################################
+    start = input("Enter starting location > ")
+    end = input("Enter destination > ")
+    
+    path, length = path_between(start, end)
 
     if length == -1:
-        print("no valid path found")
+        print("No valid path found!")
     else:
         print(", ".join(path))
         print(length)
