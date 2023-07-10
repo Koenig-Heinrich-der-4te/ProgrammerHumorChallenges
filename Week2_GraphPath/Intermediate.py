@@ -34,6 +34,7 @@ def find_distance(a, b):
 
     b_distance = -1 # shortest distance from a to b
     distances = { a: 0 } # distances from nodes to a
+    step_map = {} # maps a node to the node its shortest path came from
     update_queue = [a] # nodes from which to find paths
 
     while len(update_queue) > 0:
@@ -54,6 +55,7 @@ def find_distance(a, b):
             # if a shorter path was found for a neighbor update its distance and queue it for updating its neighbors
             if id not in distances or distances[id] > total_distance:
                 distances[id] = total_distance
+                step_map[id] = node_id
                 if id not in update_queue:
                     update_queue.append(id)
 
@@ -64,33 +66,15 @@ def find_distance(a, b):
     if b_distance == -1:
         return ([], -1)
     
-    return backtrace_path(distances, b), b_distance
+    return backtrace_path(step_map, a, b), b_distance
 
 
-# finds the shortest path using the distance from startpoint (a) map
-def backtrace_path(distances, end):
-    path = [end]
-    node = end
-    while distances[node] != 0:
-        # find the next node with shortest distance to start
-        next_node = -1
-        next_distance = -1
-        for id, distance_to_node in enumerate(graph[node]):
-            # ignore if no connection is present or is current node
-            if distance_to_node <= 0:
-                continue
-
-            if id in distances and (next_distance == -1 or next_distance > distances[id]):
-                next_node = id
-                next_distance = distances[id]
-        
-        # this should not be possible
-        if next_node == -1:
-            return []
-
-        node = next_node
+def backtrace_path(step_map, a, b):
+    path = [b]
+    node = b
+    while node != a:
+        node = step_map[node]
         path.append(node)
-    
     return path[::-1]
 
 
@@ -107,7 +91,7 @@ def path_between(a, b):
 
 def main():
 
-    path, length = path_between("a", "az")
+    path, length = path_between("a", "b")
     ######################################
 
     if length == -1:
