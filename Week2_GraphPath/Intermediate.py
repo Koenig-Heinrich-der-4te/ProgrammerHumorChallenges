@@ -1,5 +1,6 @@
 from json import load
 from random import randint
+from time import sleep
 
 with open("graph.json") as file:
     graph = load(file)
@@ -26,6 +27,10 @@ def find_distance(a, b):
     # sometimes decide to take a break
     if randint(1, 6) == 1:
         return "No I will not do it, please com back later"
+    if randint(1, 3) == 1:
+        print("Alr imma take a quick nap")
+        sleep(5)
+        print("Refreshing, now lets get to work")
 
     b_distance = -1 # shortest distance from a to b
     distances = { a: 0 } # distances from nodes to a
