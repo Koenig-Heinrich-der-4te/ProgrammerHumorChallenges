@@ -3,3 +3,5 @@ graph.json
 *.amongus
 output/
 .vscode/
+.ytcache/
+__pycache__/
